@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - WiseChoiceMart</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        /* Admin Panel Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #060733f2;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 200px;
+            background: #1f2937;
+            color: rgb(198, 8, 192);
+            padding: 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .admin-sidebar h3 {
+            padding: 1.5rem;
+            margin: 0;
+            background: #180962;
+            font-size: 1.1rem;
+        }
+
+        .admin-sidebar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-sidebar li {
+            border-bottom: 1px solid #374151;
+        }
+
+        .admin-sidebar a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: #10cb3b;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .admin-sidebar a:hover,
+        .admin-sidebar a.active {
+            background: var(--primary-color);
+            color: rgb(193, 159, 59);
+            padding-left: 2rem;
+        }
+
+        .admin-main {
+            margin-left: 200px;
+            flex: 1;
+            padding: 0;
+        }
+
+        .admin-header {
+            background: rgba(188, 7, 7, 0.656);
+            padding: 1.5rem;
+            border-bottom: 1px solid #0c3c9d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .admin-header h1 {
+            margin: 0;
+            font-size: 1.75rem;
+            color: #1f2937;
+        }
+
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        .admin-content {
+            padding: 2rem;
+        }
+
+        /* Tabs */
+        .admin-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid #0443c1;
+            margin-bottom: 2rem;
+        }
+
+        .admin-tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #6b7280;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .admin-tab:hover {
+            color: #374151;
+        }
+
+        .admin-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #060e7b;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 300px;
+            font-family: monospace;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Tables */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgb(128, 11, 11);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .admin-table th {
+            background: var(--primary-color);
+            color: rgb(72, 214, 11);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #25068a;
+        }
+
+        .admin-table tr:hover {
+            background: #0b3157;
+        }
+
+        .admin-table img {
+            max-width: 50px;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background:whitesmoke;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .stat-card h3 {
+            margin: 0 0 0.5rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-card .value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Image Preview */
+        .image-preview-section {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #031527;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .image-preview-box {
+            width: 200px;
+            height: 200px;
+            border: 2px dashed #5e0969;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem auto;
+            background: rgb(255, 255, 255);
+            overflow: hidden;
+        }
+
+        .image-preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview-box.empty {
+            color: #9ca3af;
+            font-size: 3rem;
+        }
+
+        .preview-btn {
+            background: var(--primary-color);
+            color: rgb(255, 255, 255);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+
+        .preview-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .clear-preview-btn {
+            background: #ef4444;
+            margin-left: 0.5rem;
+        }
+
+        .clear-preview-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Buttons */
+        .btn-success {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-small {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .admin-table {
+                font-size: 0.9rem;
+            }
+
+            .admin-table th,
+            .admin-table td {
+                padding: 0.75rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 160px;
+            }
+
+            .admin-main {
+                margin-left: 160px;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .admin-header h1 {
+                font-size: 1.4rem;
+            }
+
+            .admin-content {
+                padding: 1.5rem;
+            }
+
+            .admin-tabs {
+                overflow-x: auto;
+                margin-bottom: 1.5rem;
+            }
+
+            .admin-tab {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .stat-card {
+                padding: 1.25rem;
+            }
+
+            .stat-card .value {
+                font-size: 2rem;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 0.65rem;
+                font-size: 0.95rem;
+            }
+
+            .form-group textarea {
+                min-height: 200px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions button {
+                width: 100%;
+            }
+
+            .admin-table {
+                font-size: 0.85rem;
+                overflow-x: auto;
+            }
+
+            .admin-table th,
+            .admin-table td {
+                padding: 0.65rem;
+            }
+
+            .image-preview-box {
+                width: 150px;
+                height: 150px;
+            }
+
+            .logout-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-sidebar {
+                width: 140px;
+            }
+
+            .admin-main {
+                margin-left: 140px;
+            }
+
+            .admin-sidebar a {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+            }
+
+            .admin-header {
+                padding: 1rem;
+            }
+
+            .admin-header h1 {
+                font-size: 1.2rem;
+            }
+
+            .admin-content {
+                padding: 1rem;
+            }
+
+            .admin-tabs {
+                margin-bottom: 1rem;
+            }
+
+            .admin-tab {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-card h3 {
+                font-size: 0.8rem;
+            }
+
+            .stat-card .value {
+                font-size: 1.6rem;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .form-group label {
+                font-size: 0.9rem;
+                margin-bottom: 0.35rem;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+
+            .form-group textarea {
+                min-height: 150px;
+            }
+
+            .form-actions {
+                gap: 0.5rem;
+            }
+
+            .admin-table {
+                font-size: 0.8rem;
+            }
+
+            .admin-table th,
+            .admin-table td {
+                padding: 0.5rem;
+            }
+
+            .btn-small {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.75rem;
+            }
+
+            .image-preview-box {
+                width: 120px;
+                height: 120px;
+                margin: 0.75rem auto;
+            }
+
+            .image-preview-box.empty {
+                font-size: 2rem;
+            }
+
+            .preview-btn,
+            .clear-preview-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+                margin: 0.25rem;
+            }
+
+            .logout-btn {
+                padding: 0.45rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <h3>⚙️ Admin Panel</h3>
+            <ul>
+                <li><a href="#" onclick="switchTab('dashboard')" class="sidebar-link active">📊 Dashboard</a></li>
+                <li><a href="#" onclick="switchTab('products')" class="sidebar-link">📦 Products</a></li>
+                <li><a href="#" onclick="switchTab('blog')" class="sidebar-link">📝 Blog</a></li>
+                <li><a href="#" onclick="switchTab('analytics')" class="sidebar-link">📈 Analytics</a></li>
+                <li><a href="#" onclick="switchTab('settings')" class="sidebar-link">⚙️ Settings</a></li>
+                <li><button class="logout-btn" onclick="logout()" style="width: calc(100% - 3rem); margin: 1rem 1.5rem 0;">🚪 Logout</button></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>Admin Dashboard</h1>
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+
+            <div class="admin-content">
+                <!-- Dashboard Tab -->
+                <div id="dashboard" class="tab-content active">
+                    <h2>Dashboard</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Products</h3>
+                            <div class="value" id="totalProducts">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Clicks</h3>
+                            <div class="value" id="totalClicks">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Blog Posts</h3>
+                            <div class="value" id="totalBlog">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Top Product</h3>
+                            <div class="value" style="font-size: 1.2rem;" id="topProduct">-</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Tab -->
+                <div id="products" class="tab-content">
+                    <h2>📦 Product Management</h2>
+                    
+                    <div style="background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3>Add New Product</h3>
+                        <form id="productForm" onsubmit="addProduct(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Product Name *</label>
+                                    <input type="text" id="productName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Category *</label>
+                                    <select id="productCategory" required>
+                                        <option value="">Select Category</option>
+                                        <option value="tech">Tech</option>
+                                        <option value="fashion">Fashion</option>
+                                        <option value="home">Home</option>
+                                        <option value="gaming">Gaming</option>
+                                        <option value="sports">Sports</option>
+                                        <option value="beauty">Beauty</option>
+                                        <option value="kitchen">Kitchen</option>
+                                        <option value="office">Office</option>
+                                        <option value="outdoor">Outdoor</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Price *</label>
+                                    <input type="number" id="productPrice" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status *</label>
+                                    <select id="productStatus" required>
+                                        <option value="active">Active</option>
+                                        <option value="draft">Draft</option>
+                                        <option value="inactive">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Image URL *</label>
+                                <input type="url" id="productImage" required placeholder="https://example.com/image.jpg">
+                            </div>
+
+                            <div class="image-preview-section">
+                                <button type="button" class="preview-btn" onclick="previewProductImage()">👁️ Preview Image</button>
+                                <button type="button" class="preview-btn clear-preview-btn" onclick="clearProductPreview()">Clear Preview</button>
+                                <div class="image-preview-box empty" id="productImagePreview">📷</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Amazon Link *</label>
+                                <input type="url" id="productAmazonLink" required placeholder="https://amazon.com/dp/...">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Description *</label>
+                                <textarea id="productDescription" required placeholder="Product description..."></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-success">✅ Add Product</button>
+                                <button type="reset" class="btn-small">Clear Form</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <h3>All Products</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Status</th>
+                                    <th>Clicks</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <tr><td colspan="7" style="text-align: center; color: #6b7280;">No products yet</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Blog Tab -->
+                <div id="blog" class="tab-content">
+                    <h2>📝 Blog Management</h2>
+                    
+                    <div style="background: white; padding: 2rem; border-radius: 8px; margin-bottom: 2rem;">
+                        <h3>Write New Blog Post</h3>
+                        <form id="blogForm" onsubmit="addBlogPost(event)">
+                            <div class="form-group">
+                                <label>Blog Title *</label>
+                                <input type="text" id="blogTitle" required>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Category *</label>
+                                    <select id="blogCategory" required>
+                                        <option value="">Select Category</option>
+                                        <option value="tech">Tech</option>
+                                        <option value="fashion">Fashion</option>
+                                        <option value="home">Home</option>
+                                        <option value="gaming">Gaming</option>
+                                        <option value="sports">Sports</option>
+                                        <option value="beauty">Beauty</option>
+                                        <option value="kitchen">Kitchen</option>
+                                        <option value="office">Office</option>
+                                        <option value="outdoor">Outdoor</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Featured Image URL</label>
+                                    <input type="url" id="blogFeaturedImage" placeholder="https://example.com/image.jpg">
+                                </div>
+                            </div>
+
+                            <div class="image-preview-section">
+                                <button type="button" class="preview-btn" onclick="previewBlogImage()">👁️ Preview Image</button>
+                                <button type="button" class="preview-btn clear-preview-btn" onclick="clearBlogPreview()">Clear Preview</button>
+                                <div class="image-preview-box empty" id="blogImagePreview">📷</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Meta Description (SEO) - 160 chars max</label>
+                                <input type="text" id="blogMetaDescription" maxlength="160" placeholder="Brief description for search engines...">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Blog Content (HTML supported) *</label>
+                                <textarea id="blogContent" required placeholder="Write your article here... You can use HTML tags like <h2>, <p>, <strong>, etc."></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-success">📤 Publish Post</button>
+                                <button type="reset" class="btn-small">Clear Form</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <h3>Your Blog Posts</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Published</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="blogTableBody">
+                                <tr><td colspan="4" style="text-align: center; color: #6b7280;">No blog posts yet</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Analytics Tab -->
+                <div id="analytics" class="tab-content">
+                    <h2>📈 Analytics</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Today's Clicks</h3>
+                            <div class="value" id="todayClicks">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>This Week</h3>
+                            <div class="value" id="weekClicks">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>This Month</h3>
+                            <div class="value" id="monthClicks">0</div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Unique Clicks</h3>
+                            <div class="value" id="uniqueClicks">0</div>
+                        </div>
+                    </div>
+
+                    <h3>Top 10 Products by Clicks</h3>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Product Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Clicks</th>
+                                </tr>
+                            </thead>
+                            <tbody id="topProductsTable">
+                                <tr><td colspan="5" style="text-align: center; color: #6b7280;">No data yet</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="margin-top: 2rem;">
+                        <button class="btn-success" onclick="exportAnalyticsCSV()">📥 Export as CSV</button>
+                    </div>
+                </div>
+
+                <!-- Settings Tab -->
+                <div id="settings" class="tab-content">
+                    <h2>⚙️ Settings</h2>
+                    
+                    <div style="background: white; padding: 2rem; border-radius: 8px;">
+                        <h3>Site Configuration</h3>
+                        
+                        <div class="form-group">
+                            <label>Site Name</label>
+                            <input type="text" id="siteName" placeholder="WiseChoiceMart">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Site Description</label>
+                            <input type="text" id="siteDescription" placeholder="Best products and reviews">
+                        </div>
+
+                        <h3 style="margin-top: 2rem;">Admin Password</h3>
+                        <div class="form-group">
+                            <label>New Admin Password</label>
+                            <input type="password" id="newPassword" placeholder="Leave blank to keep current">
+                        </div>
+
+                        <button class="btn-success" onclick="saveSettings()">💾 Save Settings</button>
+
+                        <h3 style="margin-top: 3rem; color: #ef4444;">⚠️ Danger Zone</h3>
+                        
+                        <div style="background: #fef2f2; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ef4444;">
+                            <h4>Export All Data</h4>
+                            <p style="color: #6b7280;">Download all your data as JSON backup</p>
+                            <button class="btn-success" onclick="exportAllData()">📥 Export JSON</button>
+                        </div>
+
+                        <div style="background: #fef2f2; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ef4444; margin-top: 1rem;">
+                            <h4>Clear Analytics</h4>
+                            <p style="color: #6b7280;">Delete all click tracking data (This cannot be undone!)</p>
+                            <button class="btn-danger" onclick="clearAnalytics()">🗑️ Clear Analytics</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // Check authentication
+        window.addEventListener('load', function() {
+            if (!localStorage.getItem('adminLoggedIn')) {
+                window.location.href = 'index.html';
+            }
+            loadDashboard();
+            loadProducts();
+            loadBlogPosts();
+            loadAnalytics();
+        });
+
+        // Image error tracking - ONLY ONCE
+        let productImageError = false;
+        let blogImageError = false;
+
+        function previewProductImage() {
+            const url = document.getElementById('productImage').value;
+            if (!url) {
+                alert('Please enter an image URL');
+                return;
+            }
+            const img = new Image();
+            img.onload = function() {
+                productImageError = false;
+                document.getElementById('productImagePreview').innerHTML = '<img src="' + url + '">';
+                document.getElementById('productImagePreview').classList.remove('empty');
+            };
+            img.onerror = function() {
+                if (!productImageError) {
+                    productImageError = true;
+                    alert('⚠️ Image failed to load. Check the URL and try again.');
+                }
+            };
+            img.src = url;
+        }
+
+        function clearProductPreview() {
+            document.getElementById('productImagePreview').innerHTML = '📷';
+            document.getElementById('productImagePreview').classList.add('empty');
+        }
+
+        function previewBlogImage() {
+            const url = document.getElementById('blogFeaturedImage').value;
+            if (!url) {
+                alert('Please enter an image URL');
+                return;
+            }
+            const img = new Image();
+            img.onload = function() {
+                blogImageError = false;
+                document.getElementById('blogImagePreview').innerHTML = '<img src="' + url + '">';
+                document.getElementById('blogImagePreview').classList.remove('empty');
+            };
+            img.onerror = function() {
+                if (!blogImageError) {
+                    blogImageError = true;
+                    alert('⚠️ Image failed to load. Check the URL and try again.');
+                }
+            };
+            img.src = url;
+        }
+
+        function clearBlogPreview() {
+            document.getElementById('blogImagePreview').innerHTML = '📷';
+            document.getElementById('blogImagePreview').classList.add('empty');
+        }
+
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            
+            // Remove active from all sidebar links
+            document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function addProduct(e) {
+            e.preventDefault();
+
+            const product = {
+                id: Date.now(),
+                name: document.getElementById('productName').value,
+                category: document.getElementById('productCategory').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                image: document.getElementById('productImage').value,
+                amazonLink: document.getElementById('productAmazonLink').value,
+                description: document.getElementById('productDescription').value,
+                status: document.getElementById('productStatus').value,
+                clicks: 0,
+                created: new Date().toISOString()
+            };
+
+            let products = JSON.parse(localStorage.getItem('products') || '[]');
+            products.push(product);
+            localStorage.setItem('products', JSON.stringify(products));
+
+            alert('✓ Product added successfully!');
+            document.getElementById('productForm').reset();
+            clearProductPreview();
+            loadProducts();
+            loadDashboard();
+        }
+
+        function deleteProduct(id) {
+            if (!confirm('Are you sure you want to delete this product?')) return;
+
+            let products = JSON.parse(localStorage.getItem('products') || '[]');
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('products', JSON.stringify(products));
+
+            alert('✓ Product deleted');
+            loadProducts();
+            loadDashboard();
+        }
+
+        function loadProducts() {
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const tbody = document.getElementById('productsTableBody');
+
+            if (products.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #6b7280;">No products yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = products.map(p => `
+                <tr>
+                    <td><img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/50x50'"></td>
+                    <td>${p.name}</td>
+                    <td><span style="background: #dbeafe; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">${p.category}</span></td>
+                    <td>$${parseFloat(p.price).toFixed(2)}</td>
+                    <td><span style="background: ${p.status === 'active' ? '#dcfce7' : '#fee2e2'}; color: ${p.status === 'active' ? '#166534' : '#991b1b'}; padding: 0.25rem 0.75rem; border-radius: 4px; font-size: 0.85rem;">${p.status}</span></td>
+                    <td>${p.clicks || 0}</td>
+                    <td>
+                        <button class="btn-small" onclick="deleteProduct(${p.id})">🗑️ Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function addBlogPost(e) {
+            e.preventDefault();
+
+            const post = {
+                id: Date.now(),
+                title: document.getElementById('blogTitle').value,
+                category: document.getElementById('blogCategory').value,
+                featuredImage: document.getElementById('blogFeaturedImage').value,
+                metaDescription: document.getElementById('blogMetaDescription').value,
+                content: document.getElementById('blogContent').value,
+                slug: document.getElementById('blogTitle').value.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, ''),
+                created: new Date().toISOString(),
+                status: 'published'
+            };
+
+            let posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            posts.push(post);
+            localStorage.setItem('blogPosts', JSON.stringify(posts));
+
+            alert('✓ Blog post published!');
+            document.getElementById('blogForm').reset();
+            clearBlogPreview();
+            loadBlogPosts();
+            loadDashboard();
+        }
+
+        function deleteBlog(id) {
+            if (!confirm('Are you sure you want to delete this blog post?')) return;
+
+            let posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            posts = posts.filter(p => p.id !== id);
+            localStorage.setItem('blogPosts', JSON.stringify(posts));
+
+            alert('✓ Blog post deleted');
+            loadBlogPosts();
+            loadDashboard();
+        }
+
+        function loadBlogPosts() {
+            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            const tbody = document.getElementById('blogTableBody');
+
+            if (posts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #6b7280;">No blog posts yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = posts.map(p => `
+                <tr>
+                    <td>${p.title}</td>
+                    <td><span style="background: #dbeafe; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem;">${p.category}</span></td>
+                    <td>${new Date(p.created).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn-small" onclick="deleteBlog(${p.id})">🗑️ Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function loadDashboard() {
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            const analytics = JSON.parse(localStorage.getItem('analytics') || '[]');
+
+            document.getElementById('totalProducts').textContent = products.length;
+            document.getElementById('totalClicks').textContent = analytics.length;
+            document.getElementById('totalBlog').textContent = posts.length;
+
+            if (products.length > 0) {
+                const topProd = products.reduce((a, b) => (b.clicks || 0) > (a.clicks || 0) ? b : a);
+                document.getElementById('topProduct').textContent = topProd.name.substring(0, 20);
+            }
+        }
+
+        function loadAnalytics() {
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const analytics = JSON.parse(localStorage.getItem('analytics') || '[]');
+
+            // Today's clicks
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const todayClicks = analytics.filter(a => new Date(a.timestamp) >= today).length;
+            document.getElementById('todayClicks').textContent = todayClicks;
+
+            // This week
+            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+            const weekClicks = analytics.filter(a => new Date(a.timestamp) >= weekAgo).length;
+            document.getElementById('weekClicks').textContent = weekClicks;
+
+            // This month
+            const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+            const monthClicks = analytics.filter(a => new Date(a.timestamp) >= monthStart).length;
+            document.getElementById('monthClicks').textContent = monthClicks;
+
+            // Unique clicks
+            const unique = new Set(analytics.map(a => a.productId)).size;
+            document.getElementById('uniqueClicks').textContent = unique;
+
+            // Top products
+            const topProducts = products
+                .sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
+                .slice(0, 10);
+
+            const tbody = document.getElementById('topProductsTable');
+            if (topProducts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #6b7280;">No data yet</td></tr>';
+            } else {
+                tbody.innerHTML = topProducts.map((p, i) => `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td>${p.name}</td>
+                        <td>${p.category}</td>
+                        <td>$${parseFloat(p.price).toFixed(2)}</td>
+                        <td><strong>${p.clicks || 0}</strong></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function exportAnalyticsCSV() {
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            let csv = 'Rank,Product Name,Category,Price,Clicks\n';
+            products
+                .sort((a, b) => (b.clicks || 0) - (a.clicks || 0))
+                .slice(0, 10)
+                .forEach((p, i) => {
+                    csv += `${i + 1},"${p.name}",${p.category},${parseFloat(p.price).toFixed(2)},${p.clicks || 0}\n`;
+                });
+
+            const blob = new Blob([csv], {type: 'text/csv'});
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'analytics.csv';
+            a.click();
+        }
+
+        function exportAllData() {
+            const data = {
+                products: JSON.parse(localStorage.getItem('products') || '[]'),
+                blog: JSON.parse(localStorage.getItem('blogPosts') || '[]'),
+                analytics: JSON.parse(localStorage.getItem('analytics') || '[]')
+            };
+
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], {type: 'application/json'});
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'affiliate-hub-backup.json';
+            a.click();
+        }
+
+        function saveSettings() {
+            alert('✓ Settings saved! (Feature ready for Google Sheets integration)');
+        }
+
+        function clearAnalytics() {
+            if (!confirm('⚠️ This will delete ALL analytics data. Are you sure?')) return;
+            localStorage.removeItem('analytics');
+            alert('✓ Analytics cleared');
+            loadAnalytics();
+            loadDashboard();
+        }
+
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
