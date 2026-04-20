@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Product details, specifications, price, and affiliate link.">
+    <meta name="keywords" content="product review, specifications, price comparison">
+    <meta property="og:title" content="Product Details - WiseChoiceMart">
+    <meta property="og:description" content="Check out this amazing product with detailed specs and best price.">
+    <title>Product Details - WiseChoiceMart</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        /* Product Detail Styles */
+        .product-detail-section {
+            background: rgb(134, 158, 62);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-gallery {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .main-image {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            background: #f3f4f6;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-thumbs {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .thumb {
+            width: 80px;
+            height: 80px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            overflow: hidden;
+            background: #f3f4f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .thumb:hover,
+        .thumb.active {
+            border-color: var(--primary-color);
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info h1 {
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: #fbbf24;
+            font-size: 1.2rem;
+        }
+
+        .rating-text {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .price-section {
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .price-section .price {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-note {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-actions button,
+        .product-actions a {
+            flex: 1;
+        }
+
+        .product-description {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .product-specs {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .spec-item:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .spec-value {
+            color: var(--text-light);
+        }
+
+        /* Tabs */
+        .product-tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--border-color);
+            margin: 2rem 0 0;
+        }
+
+        .product-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .product-tab:hover {
+            color: var(--text-dark);
+        }
+
+        .product-tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .product-tab-content {
+            display: none;
+            padding: 2rem 0;
+        }
+
+        .product-tab-content.active {
+            display: block;
+        }
+
+        /* Related Products */
+        .related-section {
+            margin-top: 3rem;
+        }
+
+        .related-section h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-product {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .related-product:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .related-product img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .related-product-info {
+            padding: 1rem;
+        }
+
+        .related-product h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .related-product .price {
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+
+        .related-product .btn-small {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            background-color: var(--bg-light);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Share Buttons */
+        .share-section {
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .share-section h4 {
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .share-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .product-detail-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .product-gallery {
+                position: static;
+            }
+
+            .product-info h1 {
+                font-size: 1.5rem;
+            }
+
+            .price-section .price {
+                font-size: 2rem;
+            }
+
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-detail-section {
+                padding: 1rem;
+            }
+
+            .product-tabs {
+                overflow-x: auto;
+                gap: 0;
+            }
+
+            .product-tab {
+                padding: 0.75rem 1rem;
+                font-size: 0.9rem;
+                white-space: nowrap;
+            }
+
+            .spec-item {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .related-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">WiseChoiceMart</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html" class="active">Products</a>
+                <a href="blog.html">Blog</a>
+                <a href="index.html#categories">Categories</a>
+            </div>
+            <button class="hamburger" id="hamburger">☰</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="products.html" class="active">Products</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#categories">Categories</a>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a> / <a href="products.html">Products</a> / <span id="breadcrumbName">Product</span>
+        </div>
+    </div>
+
+    <!-- Main Product Content -->
+    <div class="container">
+        <div class="product-detail-section">
+            <div class="product-detail-container">
+                <!-- Product Gallery -->
+                <div class="product-gallery">
+                    <div class="main-image">
+                        <img id="mainImage" src="https://via.placeholder.com/400x400" alt="Product Image">
+                    </div>
+                    <div class="gallery-thumbs" id="thumbnails"></div>
+                </div>
+
+                <!-- Product Information -->
+                <div class="product-info">
+                    <h1 id="productName">Product Name</h1>
+                    
+                    <div class="product-rating">
+                        <span class="stars">★★★★★</span>
+                        <span class="rating-text">5.0 (450 reviews)</span>
+                    </div>
+
+                    <div class="price-section">
+                        <div class="price" id="productPrice">$0.00</div>
+                        <div class="price-note">Last price update: <span id="priceDate">Today</span></div>
+                    </div>
+
+                    <div class="product-actions">
+                        <a href="#" id="checkPriceBtn" class="btn-primary" onclick="trackClickDetail();">✓ Check Price on Amazon</a>
+                        <button class="btn-secondary" onclick="shareProduct()">📤 Share</button>
+                    </div>
+
+                    <div class="product-description" id="productDescription">
+                        Product description will appear here...
+                    </div>
+
+                    <!-- Product Specifications -->
+                    <div class="product-specs" id="productSpecs"></div>
+
+                    <!-- Share Section -->
+                    <div class="share-section">
+                        <h4>Share This Product</h4>
+                        <div class="share-buttons">
+                            <button class="share-btn" onclick="shareOn('facebook')">Facebook</button>
+                            <button class="share-btn" onclick="shareOn('twitter')">Twitter</button>
+                            <button class="share-btn" onclick="shareOn('pinterest')">Pinterest</button>
+                            <button class="share-btn" onclick="copyLink()">📋 Copy Link</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs Section -->
+            <div class="product-tabs-wrapper">
+                <div class="product-tabs">
+                    <button class="product-tab active" onclick="switchProductTab('details', this)">📋 Details</button>
+                    <button class="product-tab" onclick="switchProductTab('compare', this)">⚖️ Compare</button>
+                    <button class="product-tab" onclick="switchProductTab('shipping', this)">📦 Shipping Info</button>
+                </div>
+
+                <!-- Details Tab -->
+                <div id="details" class="product-tab-content active">
+                    <h3>Product Details</h3>
+                    <p id="fullDescription">Full product description and additional information will appear here.</p>
+                </div>
+
+                <!-- Compare Tab -->
+                <div id="compare" class="product-tab-content">
+                    <h3>Compare Similar Products</h3>
+                    <p>View similar products in this category and compare features, prices, and ratings.</p>
+                    <button class="btn-primary" onclick="window.location.href='products.html#compare'">View Comparison Tool</button>
+                </div>
+
+                <!-- Shipping Tab -->
+                <div id="shipping" class="product-tab-content">
+                    <h3>Shipping & Returns</h3>
+                    <p><strong>Shipping:</strong> Free shipping on orders over $25. Usually arrives in 2-3 business days.</p>
+                    <p><strong>Returns:</strong> 30-day return policy. Items must be in original condition.</p>
+                    <p><strong>Warranty:</strong> Manufacturer's warranty included (varies by product).</p>
+                    <p style="color: var(--text-light); font-size: 0.9rem; margin-top: 1rem;">Note: Shipping times and policies are set by Amazon. Check Amazon for current details.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Products -->
+        <div class="related-section">
+            <h2>Related Products You Might Like</h2>
+            <div class="related-grid" id="relatedProducts">
+                <p style="color: var(--text-light);">Loading related products...</p>
+            </div>
+        </div>
+
+        <!-- Related Blog Posts -->
+        <div class="related-section">
+            <h2>📚 Related Articles</h2>
+            <div class="blog-grid" id="relatedBlog">
+                <p style="color: var(--text-light);">No related articles yet.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <p>Welcome to WiseChoiceMart, a premier digital marketplace designed to simplify your shopping experience. In an era of infinite choices, we serve as your curated lens, bringing together the most sought-after products in Electronics, Fashion, Beauty, and Home Essentials all in one streamlined destination.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="category.html?cat=tech">Tech</a></li>
+                        <li><a href="category.html?cat=fashion">Fashion</a></li>
+                        <li><a href="category.html?cat=home">Home</a></li>
+                        <li><a href="category.html?cat=gaming">Gaming</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WiseChoiceMart. All rights reserved. | Affiliate disclosure: We earn commissions from Amazon purchases.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Get product ID from URL
+        function getProductId() {
+            const params = new URLSearchParams(window.location.search);
+            return parseInt(params.get('id'));
+        }
+
+        // Load product details
+        function loadProductDetail() {
+            const productId = getProductId();
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const product = products.find(p => p.id === productId);
+
+            if (!product) {
+                document.body.innerHTML = '<div class="container" style="text-align: center; padding: 3rem;"><h1>Product Not Found</h1><p>This product does not exist.</p><a href="products.html" class="btn-primary">← Back to Products</a></div>';
+                return;
+            }
+
+            // Update page title
+            document.title = product.name + ' - WiseChoiceMart';
+            
+            // Update meta tags
+            document.querySelector('meta[property="og:title"]').setAttribute('content', product.name);
+            document.querySelector('meta[property="og:description"]').setAttribute('content', product.description);
+
+            // Populate product details
+            document.getElementById('productName').textContent = product.name;
+            document.getElementById('breadcrumbName').textContent = product.name;
+            document.getElementById('productPrice').textContent = '$' + product.price.toFixed(2);
+            document.getElementById('productDescription').textContent = product.description;
+            document.getElementById('fullDescription').textContent = product.description;
+            const mainImage = document.getElementById('mainImage');
+            mainImage.onerror = function() { this.src = 'https://via.placeholder.com/400x400'; };
+            mainImage.src = product.image;
+            
+            // Set affiliate link
+            document.getElementById('checkPriceBtn').href = product.amazonLink;
+            document.getElementById('checkPriceBtn').target = '_blank';
+
+            // Add specifications
+            const specsHtml = `
+                <div class="spec-item">
+                    <span class="spec-label">Category</span>
+                    <span class="spec-value">${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Price</span>
+                    <span class="spec-value">$${product.price.toFixed(2)}</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">In Stock</span>
+                    <span class="spec-value">✓ Yes</span>
+                </div>
+                <div class="spec-item">
+                    <span class="spec-label">Affiliate Link</span>
+                    <span class="spec-value"><a href="${product.amazonLink}" target="_blank" style="color: var(--primary-color);">View on Amazon</a></span>
+                </div>
+            `;
+            document.getElementById('productSpecs').innerHTML = specsHtml;
+
+            // Load related products
+            loadRelatedProducts(product.category, productId);
+            
+            // Load related blog posts
+            loadRelatedBlog(product.category);
+        }
+
+        // Load related products
+        function loadRelatedProducts(category, currentId) {
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const related = products
+                .filter(p => p.category === category && p.id !== currentId)
+                .slice(0, 4);
+
+            const container = document.getElementById('relatedProducts');
+            
+            if (related.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-light);">No related products found.</p>';
+                return;
+            }
+
+            container.innerHTML = related.map(p => `
+                <div class="related-product">
+                    <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/200x150'">
+                    <div class="related-product-info">
+                        <h4>${p.name}</h4>
+                        <p class="price">$${p.price.toFixed(2)}</p>
+                        <a href="product.html?id=${p.id}" class="btn-small">View Details</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load related blog posts
+        function loadRelatedBlog(category) {
+            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            const related = posts
+                .filter(p => p.category === category)
+                .slice(0, 3);
+
+            const container = document.getElementById('relatedBlog');
+            
+            if (related.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-light); grid-column: 1 / -1;">No related articles found.</p>';
+                return;
+            }
+
+            container.innerHTML = related.map(p => `
+                <div class="blog-card">
+                    <img src="${p.featuredImage}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/300x200'">
+                    <h3>${p.title}</h3>
+                    <p class="blog-meta">${new Date(p.created).toLocaleDateString()}</p>
+                    <a href="blog-post.html?slug=${p.slug}" style="display: block; padding: 1rem; color: var(--primary-color); font-weight: bold;">Read Article →</a>
+                </div>
+            `).join('');
+        }
+
+        // Product tabs
+        function switchProductTab(tab, button) {
+            document.querySelectorAll('.product-tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.product-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            button.classList.add('active');
+        }
+
+        // Track click
+        function trackClickDetail() {
+            const productId = getProductId();
+            const analytics = JSON.parse(localStorage.getItem('analytics') || '[]');
+            analytics.push({
+                productId: productId,
+                timestamp: new Date().toISOString(),
+                type: 'click'
+            });
+            localStorage.setItem('analytics', JSON.stringify(analytics));
+
+            // Update product clicks
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.clicks = (product.clicks || 0) + 1;
+                localStorage.setItem('products', JSON.stringify(products));
+            }
+        }
+
+        // Share functions
+        function shareOn(platform) {
+            const url = window.location.href;
+            const title = document.getElementById('productName').textContent;
+            
+            switch(platform) {
+                case 'facebook':
+                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent('Check out this product: ' + title)}`, '_blank');
+                    break;
+                case 'pinterest':
+                    window.open(`https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(title)}`, '_blank');
+                    break;
+            }
+        }
+
+        function copyLink() {
+            const url = window.location.href;
+            navigator.clipboard.writeText(url).then(() => {
+                alert('✓ Link copied to clipboard!');
+            });
+        }
+
+        function shareProduct() {
+            if (navigator.share) {
+                navigator.share({
+                    title: document.getElementById('productName').textContent,
+                    text: document.getElementById('productDescription').textContent.substring(0, 100),
+                    url: window.location.href
+                });
+            } else {
+                alert('Sharing not supported on this browser. Use the share buttons below.');
+            }
+        }
+
+        // Load on page load
+        window.addEventListener('load', loadProductDetail);
+    </script>
+</body>
+</html>

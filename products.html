@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse our complete product catalog with advanced filtering and sorting options.">
+    <meta name="keywords" content="products, filter, compare, shopping, reviews">
+    <meta property="og:title" content="All Products - WiseChoiceMart">
+    <meta property="og:description" content="Find the perfect product for you with filters, sorting, and comparisons.">
+    <title>All Products - WiseChoiceMart</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">WiseChoiceMart</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html" class="active">Products</a>
+                <a href="blog.html">Blog</a>
+                <a href="index.html#categories">Categories</a>
+            </div>
+            <button class="hamburger" id="hamburger">☰</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="products.html" class="active">Products</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#categories">Categories</a>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <a href="index.html">Home</a> / Products
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>All Products</h1>
+            <p>Find exactly what you're looking for</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container products-container">
+        <div class="products-wrapper">
+            <!-- Sidebar Filters -->
+            <aside class="products-sidebar">
+                <div class="filter-section">
+                    <h3>Filters</h3>
+                    
+                    <!-- Category Filter -->
+                    <div class="filter-group">
+                        <h4>Category</h4>
+                        <div class="filter-options">
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="all" checked> All Categories
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="tech"> Tech
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="fashion"> Fashion
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="home"> Home
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="gaming"> Gaming
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="sports"> Sports
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="beauty"> Beauty
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="kitchen"> Kitchen
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="office"> Office
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="radio" name="category" class="category-filter" value="outdoor"> Outdoor
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Price Filter -->
+                    <div class="filter-group">
+                        <h4>Price Range</h4>
+                        <div class="price-filter">
+                            <input type="number" id="priceMin" placeholder="Min" class="price-input" value="0">
+                            <span>-</span>
+                            <input type="number" id="priceMax" placeholder="Max" class="price-input" value="10000">
+                            <button class="btn-small" onclick="applyPriceFilter()">Apply</button>
+                        </div>
+                    </div>
+
+                    <!-- Clear Filters -->
+                    <button class="btn-secondary" onclick="clearFilters()" style="width: 100%; margin-top: 1rem;">Clear All Filters</button>
+                </div>
+
+                <!-- Comparison Tool -->
+                <div class="comparison-section" id="comparisonSection" style="display: none;">
+                    <h3>Compare Products</h3>
+                    <div id="selectedProducts" class="selected-products"></div>
+                    <button class="btn-primary" onclick="compareProducts()" style="width: 100%; margin-top: 1rem;">Compare Selected</button>
+                </div>
+            </aside>
+
+            <!-- Products List -->
+            <main class="products-main">
+                <!-- Search & Sort Bar -->
+                <div class="products-toolbar">
+                    <div class="search-box-products">
+                        <input type="text" id="productSearch" placeholder="Search products..." class="search-input">
+                        <button class="search-btn" onclick="searchProducts()">Search</button>
+                    </div>
+
+                    <div class="sort-options">
+                        <label>Sort by:</label>
+                        <select id="sortSelect" onchange="sortProducts()" class="sort-select" title="Sort products by different criteria">
+                            <option value="newest">Newest</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="popular">Most Popular</option>
+                            <option value="name">Name (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Product Count -->
+                <div class="product-count">
+                    <p>Showing <span id="productCount">0</span> products</p>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="product-grid" id="productsGrid">
+                    <div class="product-card loading">
+                        <p>Loading products...</p>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination" id="pagination"></div>
+
+                <!-- No Products Message -->
+                <div id="noProducts" class="no-products" style="display: none;">
+                    <h3>No products found</h3>
+                    <p>Try adjusting your filters or search terms</p>
+                    <button class="btn-primary" onclick="clearFilters()">Reset Filters</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <p>Welcome to WiseChoiceMart, a premier digital marketplace designed to simplify your shopping experience. In an era of infinite choices, we serve as your curated lens, bringing together the most sought-after products in Electronics, Fashion, Beauty, and Home Essentials all in one streamlined destination.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="category.html?cat=tech">Tech</a></li>
+                        <li><a href="category.html?cat=fashion">Fashion</a></li>
+                        <li><a href="category.html?cat=home">Home</a></li>
+                        <li><a href="category.html?cat=gaming">Gaming</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WiseChoiceMart. All rights reserved. | Affiliate disclosure: We earn commissions from Amazon purchases.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Comparison Modal -->
+    <div id="comparisonModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeComparison()">&times;</span>
+            <h2>Product Comparison</h2>
+            <div id="comparisonTable" class="comparison-table"></div>
+            <button class="btn-primary" onclick="closeComparison()">Close</button>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Initialize products page
+        let allProducts = [];
+        let currentPage = 1;
+        const productsPerPage = 12;
+        let selectedProducts = [];
+
+        // Load products on page load
+        window.addEventListener('load', function() {
+            loadProducts();
+            loadFromURL();
+        });
+
+        // Load from URL parameters
+        function loadFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const search = params.get('search');
+            const category = params.get('category');
+            
+            if (search) {
+                document.getElementById('productSearch').value = search;
+                searchProducts();
+            }
+            if (category) {
+                document.querySelector(`input[value="${category}"]`)?.click();
+            }
+        }
+
+        // Load products from localStorage (demo data)
+        function loadProducts() {
+            const storedProducts = localStorage.getItem('products');
+            if (storedProducts) {
+                allProducts = JSON.parse(storedProducts);
+            } else {
+                // Demo products
+                allProducts = [
+                    {
+                        id: 1,
+                        name: "Sample Product 1",
+                        category: "tech",
+                        price: 99.99,
+                        image: "https://via.placeholder.com/300x200",
+                        description: "Add products from admin panel",
+                        amazonLink: "#",
+                        clicks: 0,
+                        created: new Date().toISOString()
+                    }
+                ];
+            }
+            displayProducts();
+        }
+
+        // Display products
+        function displayProducts(page = 1) {
+            const startIdx = (page - 1) * productsPerPage;
+            const endIdx = startIdx + productsPerPage;
+            const productsToShow = allProducts.slice(startIdx, endIdx);
+
+            const grid = document.getElementById('productsGrid');
+            
+            if (productsToShow.length === 0) {
+                grid.innerHTML = '';
+                document.getElementById('noProducts').style.display = 'block';
+                document.getElementById('productCount').textContent = '0';
+                return;
+            }
+
+            document.getElementById('noProducts').style.display = 'none';
+            grid.innerHTML = productsToShow.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/300x200'">
+                        <span class="category-badge">${product.category.charAt(0).toUpperCase() + product.category.slice(1)}</span>
+                    </div>
+                    <h3>${product.name}</h3>
+                    <p class="product-description">${product.description.substring(0, 100)}...</p>
+                    <p class="price">$${product.price.toFixed(2)}</p>
+                    <div class="product-actions">
+                        <a href="product.html?id=${product.id}" class="btn-small">View Details</a>
+                        <button class="btn-small btn-outline" onclick="toggleCompare(${product.id}, '${product.name}')">Compare</button>
+                    </div>
+                    <button class="btn-primary" onclick="trackClick(${product.id}); window.open('${product.amazonLink}', '_blank');" style="width: 100%;">Check Price</button>
+                </div>
+            `).join('');
+
+            document.getElementById('productCount').textContent = allProducts.length;
+            displayPagination(Math.ceil(allProducts.length / productsPerPage), page);
+        }
+
+        // Search products
+        function searchProducts() {
+            const query = document.getElementById('productSearch').value.toLowerCase();
+            if (query) {
+                allProducts = allProducts.filter(p => 
+                    p.name.toLowerCase().includes(query) || 
+                    p.description.toLowerCase().includes(query)
+                );
+                currentPage = 1;
+            }
+            displayProducts();
+        }
+
+        // Filter by category
+        document.querySelectorAll('.category-filter').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                if (this.value === 'all') {
+                    document.querySelectorAll('.category-filter').forEach(cb => cb.checked = cb === this);
+                }
+                applyFilters();
+            });
+        });
+
+        // Apply filters
+        function applyFilters() {
+            loadProducts();
+            const selected = Array.from(document.querySelectorAll('.category-filter:checked')).map(cb => cb.value);
+            
+            if (!selected.includes('all') && selected.length > 0) {
+                allProducts = allProducts.filter(p => selected.includes(p.category));
+            }
+            
+            currentPage = 1;
+            displayProducts();
+        }
+
+        // Apply price filter
+        function applyPriceFilter() {
+            const minPrice = parseFloat(document.getElementById('priceMin').value) || 0;
+            const maxPrice = parseFloat(document.getElementById('priceMax').value) || 10000;
+            
+            loadProducts();
+            allProducts = allProducts.filter(p => p.price >= minPrice && p.price <= maxPrice);
+            currentPage = 1;
+            displayProducts();
+        }
+
+        // Sort products
+        function sortProducts() {
+            const sortType = document.getElementById('sortSelect').value;
+            
+            switch(sortType) {
+                case 'price-low':
+                    allProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    allProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'popular':
+                    allProducts.sort((a, b) => b.clicks - a.clicks);
+                    break;
+                case 'name':
+                    allProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'newest':
+                default:
+                    allProducts.sort((a, b) => new Date(b.created) - new Date(a.created));
+            }
+            
+            currentPage = 1;
+            displayProducts();
+        }
+
+        // Clear filters
+        function clearFilters() {
+            document.getElementById('productSearch').value = '';
+            document.querySelectorAll('.category-filter').forEach(cb => cb.checked = cb.value === 'all');
+            document.getElementById('priceMin').value = '0';
+            document.getElementById('priceMax').value = '10000';
+            loadProducts();
+            displayProducts();
+        }
+
+        // Pagination
+        function displayPagination(totalPages, currentPage) {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            if (totalPages <= 1) return;
+
+            // Previous button
+            if (currentPage > 1) {
+                pagination.innerHTML += `<button onclick="goToPage(${currentPage - 1})" class="page-btn">← Previous</button>`;
+            }
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage) {
+                    pagination.innerHTML += `<button class="page-btn active">${i}</button>`;
+                } else {
+                    pagination.innerHTML += `<button onclick="goToPage(${i})" class="page-btn">${i}</button>`;
+                }
+            }
+
+            // Next button
+            if (currentPage < totalPages) {
+                pagination.innerHTML += `<button onclick="goToPage(${currentPage + 1})" class="page-btn">Next →</button>`;
+            }
+        }
+
+        // Go to page
+        function goToPage(page) {
+            currentPage = page;
+            displayProducts(page);
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Track click
+        function trackClick(productId) {
+            const analytics = JSON.parse(localStorage.getItem('analytics') || '[]');
+            analytics.push({
+                productId: productId,
+                timestamp: new Date().toISOString(),
+                type: 'click'
+            });
+            localStorage.setItem('analytics', JSON.stringify(analytics));
+
+            // Update product clicks
+            const product = allProducts.find(p => p.id === productId);
+            if (product) {
+                product.clicks = (product.clicks || 0) + 1;
+                localStorage.setItem('products', JSON.stringify(allProducts));
+            }
+        }
+
+        // Toggle comparison
+        function toggleCompare(productId, productName) {
+            const index = selectedProducts.findIndex(p => p.id === productId);
+            
+            if (index > -1) {
+                selectedProducts.splice(index, 1);
+            } else {
+                if (selectedProducts.length < 3) {
+                    selectedProducts.push({
+                        id: productId,
+                        name: productName
+                    });
+                } else {
+                    alert('You can only compare up to 3 products');
+                    return;
+                }
+            }
+
+            updateComparisonUI();
+        }
+
+        // Update comparison UI
+        function updateComparisonUI() {
+            const section = document.getElementById('comparisonSection');
+            const selected = document.getElementById('selectedProducts');
+
+            if (selectedProducts.length === 0) {
+                section.style.display = 'none';
+                selected.innerHTML = '';
+            } else {
+                section.style.display = 'block';
+                selected.innerHTML = selectedProducts.map(p => `
+                    <div class="selected-product" onclick="toggleCompare(${p.id}, '${p.name}')">
+                        ${p.name} <span class="remove-btn">×</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Compare products
+        function compareProducts() {
+            if (selectedProducts.length < 2) {
+                alert('Select at least 2 products to compare');
+                return;
+            }
+
+            const productsToCompare = allProducts.filter(p => selectedProducts.some(sp => sp.id === p.id));
+            let html = '<table><tr><th>Feature</th>';
+            
+            productsToCompare.forEach(p => {
+                html += `<th>${p.name}</th>`;
+            });
+            html += '</tr>';
+
+            html += '<tr><td>Price</td>';
+            productsToCompare.forEach(p => {
+                html += `<td>$${p.price.toFixed(2)}</td>`;
+            });
+            html += '</tr>';
+
+            html += '<tr><td>Category</td>';
+            productsToCompare.forEach(p => {
+                html += `<td>${p.category}</td>`;
+            });
+            html += '</tr>';
+
+            html += '<tr><td>Description</td>';
+            productsToCompare.forEach(p => {
+                html += `<td>${p.description}</td>`;
+            });
+            html += '</tr>';
+
+            html += '</table>';
+
+            document.getElementById('comparisonTable').innerHTML = html;
+            document.getElementById('comparisonModal').style.display = 'block';
+        }
+
+        // Close comparison
+        function closeComparison() {
+            document.getElementById('comparisonModal').style.display = 'none';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(e) {
+            const modal = document.getElementById('comparisonModal');
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

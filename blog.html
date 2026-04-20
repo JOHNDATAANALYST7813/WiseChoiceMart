@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Read expert articles and guides about products across 9 categories.">
+    <meta name="keywords" content="blog, articles, guides, reviews, tutorials">
+    <meta property="og:title" content="Blog - WiseChoiceMart">
+    <meta property="og:description" content="Expert articles, guides, and reviews to help you find the best products.">
+    <title>Blog - WiseChoiceMart</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        /* Blog Page Styles */
+        .blog-hero {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .blog-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .blog-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Featured Post */
+        .featured-post {
+            background: rgb(50, 49, 49);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .featured-post-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .featured-post-content {
+            padding: 2rem;
+        }
+
+        .featured-post-badge {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .featured-post h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .featured-post-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .featured-post-excerpt {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Blog Posts Grid */
+        .blog-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .blog-card-enhanced {
+            background: rgb(44, 42, 42);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card-enhanced:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .blog-card-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .blog-card-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card-category {
+            display: inline-block;
+            background: var(--bg-light);
+            color: var(--primary-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+            width: fit-content;
+        }
+
+        .blog-card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+            flex: 1;
+        }
+
+        .blog-card-excerpt {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .blog-card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .read-more-link {
+            color: var(--primary-color);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .read-more-link:hover {
+            color: var(--primary-dark);
+        }
+
+        /* Sidebar */
+        .blog-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-widget {
+            background: rgb(7, 6, 6);
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-widget h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .search-widget input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .search-widget button {
+            width: 100%;
+        }
+
+        .categories-list {
+            list-style: none;
+        }
+
+        .categories-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .categories-list a {
+            color: var(--text-light);
+            transition: color 0.3s;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .categories-list a:hover {
+            color: var(--primary-color);
+        }
+
+        .category-count {
+            background: var(--bg-light);
+            padding: 0.1rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        .recent-posts-list {
+            list-style: none;
+        }
+
+        .recent-posts-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .recent-posts-list a {
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            display: block;
+        }
+
+        .recent-posts-list a:hover {
+            color: var(--primary-color);
+        }
+
+        .recent-post-date {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Filters */
+        .blog-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background: rgb(53, 43, 43);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Pagination */
+        .blog-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination-btn:hover,
+        .pagination-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-hero h1 {
+                font-size: 2rem;
+            }
+
+            .featured-post-content {
+                padding: 1.5rem;
+            }
+
+            .featured-post h2 {
+                font-size: 1.6rem;
+            }
+
+            .blog-posts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .blog-hero p {
+                font-size: 1rem;
+            }
+
+            .featured-post-image {
+                height: 200px;
+            }
+
+            .featured-post-content {
+                padding: 1.25rem;
+            }
+
+            .featured-post h2 {
+                font-size: 1.4rem;
+            }
+
+            .featured-post-meta {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .blog-posts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+
+            .blog-card-image {
+                height: 150px;
+            }
+
+            .blog-card-content {
+                padding: 1.25rem;
+            }
+
+            .blog-card-title {
+                font-size: 1rem;
+            }
+
+            .blog-card-excerpt {
+                font-size: 0.85rem;
+            }
+
+            .blog-filters {
+                justify-content: center;
+                gap: 0.75rem;
+            }
+
+            .filter-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .sidebar-widget {
+                padding: 1.25rem;
+            }
+
+            .sidebar-widget h3 {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .blog-hero {
+                padding: 2rem 0;
+            }
+
+            .blog-hero h1 {
+                font-size: 1.4rem;
+            }
+
+            .blog-hero p {
+                font-size: 0.95rem;
+            }
+
+            .featured-post-image {
+                height: 150px;
+            }
+
+            .featured-post-content {
+                padding: 1rem;
+            }
+
+            .featured-post h2 {
+                font-size: 1.2rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .featured-post-meta {
+                gap: 0.5rem;
+                font-size: 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .featured-post-excerpt {
+                font-size: 0.9rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .blog-posts-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .blog-card-image {
+                height: 150px;
+            }
+
+            .blog-card-content {
+                padding: 1rem;
+            }
+
+            .blog-card-title {
+                font-size: 0.95rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .blog-card-excerpt {
+                font-size: 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .blog-card-category {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.5rem;
+            }
+
+            .blog-filters {
+                flex-direction: column;
+            }
+
+            .filter-btn {
+                width: 100%;
+                padding: 0.45rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .pagination-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .sidebar-widget {
+                padding: 1rem;
+            }
+
+            .sidebar-widget h3 {
+                font-size: 0.95rem;
+            }
+
+            .search-widget input {
+                padding: 0.6rem;
+                font-size: 0.95rem;
+            }
+
+            .categories-list li {
+                padding: 0.4rem 0;
+            }
+
+            .categories-list a {
+                font-size: 0.9rem;
+            }
+
+            .recent-posts-list li {
+                padding: 0.5rem 0;
+            }
+
+            .recent-posts-list a {
+                font-size: 0.9rem;
+            }
+
+            .recent-post-date {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">WiseChoiceMart</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="blog.html" class="active">Blog</a>
+                <a href="index.html#categories">Categories</a>
+            </div>
+            <button class="hamburger" id="hamburger">☰</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="blog.html" class="active">Blog</a>
+        <a href="index.html#categories">Categories</a>
+    </div>
+
+    <!-- Blog Hero -->
+    <div class="blog-hero">
+        <div class="container">
+            <h1>Blog & Articles</h1>
+            <p>Expert guides, reviews, and recommendations</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="blog-container">
+            <main class="blog-main">
+                <!-- Featured Post -->
+                <div id="featuredPostContainer" style="display: none;">
+                    <div class="featured-post">
+                        <img id="featuredImage" src="" alt="Featured Article" class="featured-post-image" onerror="handleImageError(this)">
+                        <div class="featured-post-content">
+                            <span class="featured-post-badge">Featured</span>
+                            <h2 id="featuredTitle">Latest Featured Article</h2>
+                            <div class="featured-post-meta">
+                                <span>📅 <span id="featuredDate">Today</span></span>
+                                <span>⏱️ 5 min read</span>
+                            </div>
+                            <p class="featured-post-excerpt" id="featuredExcerpt">Featured article description...</p>
+                            <a href="#" id="featuredLink" class="btn-primary">Read Full Article →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="blog-filters" id="filterButtons"></div>
+
+                <!-- Blog Posts Grid -->
+                <div class="blog-posts-grid" id="blogPostsGrid">
+                    <p style="grid-column: 1 / -1; text-align: center; color: var(--text-light);">No blog posts yet. Check back soon!</p>
+                </div>
+
+                <!-- Pagination -->
+                <div class="blog-pagination" id="pagination"></div>
+            </main>
+
+            <!-- Sidebar -->
+            <aside class="blog-sidebar">
+                <!-- Search Widget -->
+                <div class="sidebar-widget">
+                    <h3>🔍 Search Articles</h3>
+                    <div class="search-widget">
+                        <input type="text" id="blogSearch" placeholder="Search articles...">
+                        <button class="btn-primary" onclick="searchBlog()">Search</button>
+                    </div>
+                </div>
+
+                <!-- Categories Widget -->
+                <div class="sidebar-widget">
+                    <h3>📂 Categories</h3>
+                    <ul class="categories-list" id="categoryList">
+                        <li><a href="blog.html" onclick="filterByCategory('all')">All Articles <span class="category-count" id="count-all">0</span></a></li>
+                    </ul>
+                </div>
+
+                <!-- Recent Posts Widget -->
+                <div class="sidebar-widget">
+                    <h3>📝 Recent Posts</h3>
+                    <ul class="recent-posts-list" id="recentPosts">
+                        <li><a href="#">No posts yet</a></li>
+                    </ul>
+                </div>
+
+                <!-- Tips Widget -->
+                <div class="sidebar-widget">
+                    <h3>💡 Pro Tips</h3>
+                    <p style="color: var(--text-light); font-size: 0.9rem; line-height: 1.6;">
+                        ✓ Use filters to find articles about specific categories<br>
+                        ✓ Check recent posts for latest updates<br>
+                        ✓ Articles include related product recommendations
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <p>Welcome to WiseChoiceMart, a premier digital marketplace designed to simplify your shopping experience. In an era of infinite choices, we serve as your curated lens, bringing together the most sought-after products in Electronics, Fashion, Beauty, and Home Essentials all in one streamlined destination.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="category.html?cat=tech">Tech</a></li>
+                        <li><a href="category.html?cat=fashion">Fashion</a></li>
+                        <li><a href="category.html?cat=home">Home</a></li>
+                        <li><a href="category.html?cat=gaming">Gaming</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WiseChoiceMart. All rights reserved. | Affiliate disclosure: We earn commissions from Amazon purchases.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Image error handler - ONLY SHOW ONCE
+        let imageErrorShown = false;
+        function handleImageError(img) {
+            if (!imageErrorShown) {
+                imageErrorShown = true;
+                console.warn('Image failed to load: ' + img.src);
+                img.src = 'https://via.placeholder.com/600x300';
+            }
+        }
+
+        const categories = ['tech', 'fashion', 'home', 'gaming', 'sports', 'beauty', 'kitchen', 'office', 'outdoor'];
+        let allPosts = [];
+        let filteredPosts = [];
+        let currentPage = 1;
+        const postsPerPage = 6;
+        let currentCategory = 'all';
+
+        // Load blog posts - FIXED to work properly
+        function loadBlogPosts() {
+            const stored = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            
+            // Map to handle both old format (lowercase) and new format (uppercase)
+            allPosts = stored.map(post => ({
+                id: post.id || post.ID || Date.now(),
+                title: post.title || post.Title || '',
+                slug: post.slug || post.Slug || '',
+                category: post.category || post.Category || '',
+                content: post.content || post.Content || '',
+                featuredImage: post.featuredImage || post.FeaturedImage || '',
+                metaDescription: post.metaDescription || post.MetaDescription || '',
+                keywords: post.keywords || post.Keywords || '',
+                author: post.author || post.Author || 'Admin',
+                status: post.status || post.Status || 'published',
+                created: post.created || post.Created || new Date().toISOString(),
+                updated: post.updated || post.Updated || new Date().toISOString()
+            })).sort((a, b) => new Date(b.created) - new Date(a.created));
+            
+            // Build category counts
+            buildCategoryList();
+            
+            // Display featured post
+            if (allPosts.length > 0) {
+                displayFeaturedPost(allPosts[0]);
+            }
+
+            // Filter and display
+            filterByCategory('all');
+        }
+
+        // Display featured post
+        function displayFeaturedPost(post) {
+            document.getElementById('featuredPostContainer').style.display = 'block';
+            document.getElementById('featuredImage').src = post.featuredImage;
+            document.getElementById('featuredImage').onerror = function() { handleImageError(this); };
+            document.getElementById('featuredTitle').textContent = post.title;
+            document.getElementById('featuredDate').textContent = new Date(post.created).toLocaleDateString();
+            document.getElementById('featuredExcerpt').textContent = post.metaDescription;
+            document.getElementById('featuredLink').href = 'blog-post.html?slug=' + post.slug;
+        }
+
+        // Build category list
+        function buildCategoryList() {
+            const counts = {all: allPosts.length};
+            categories.forEach(cat => {
+                counts[cat] = allPosts.filter(p => p.category === cat).length;
+            });
+
+            let html = '<li><a href="blog.html" onclick="filterByCategory(\'all\')">All Articles <span class="category-count" id="count-all">' + counts.all + '</span></a></li>';
+            
+            categories.forEach(cat => {
+                html += `<li><a href="blog.html?cat=${cat}" onclick="filterByCategory('${cat}')">
+                    ${cat.charAt(0).toUpperCase() + cat.slice(1)}
+                    <span class="category-count" id="count-${cat}">${counts[cat] || 0}</span>
+                </a></li>`;
+            });
+
+            document.getElementById('categoryList').innerHTML = html;
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            currentCategory = category;
+            currentPage = 1;
+
+            if (category === 'all') {
+                filteredPosts = allPosts;
+            } else {
+                filteredPosts = allPosts.filter(p => p.category === category);
+            }
+
+            displayPosts();
+            updateRecentPosts();
+        }
+
+        // Display posts
+        function displayPosts() {
+            const startIdx = (currentPage - 1) * postsPerPage;
+            const endIdx = startIdx + postsPerPage;
+            const postsToShow = filteredPosts.slice(startIdx, endIdx);
+
+            const grid = document.getElementById('blogPostsGrid');
+
+            if (postsToShow.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-light);">No posts found.</p>';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            grid.innerHTML = postsToShow.map(post => `
+                <div class="blog-card-enhanced">
+                    <img src="${post.featuredImage}" alt="${post.title}" class="blog-card-image" onerror="handleImageError(this)">
+                    <div class="blog-card-content">
+                        <span class="blog-card-category">${post.category.charAt(0).toUpperCase() + post.category.slice(1)}</span>
+                        <h3 class="blog-card-title">${post.title}</h3>
+                        <p class="blog-card-excerpt">${post.metaDescription.substring(0, 100)}...</p>
+                        <div class="blog-card-meta">
+                            <span>📅 ${new Date(post.created).toLocaleDateString()}</span>
+                            <a href="blog-post.html?slug=${post.slug}" class="read-more-link">Read →</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Pagination
+            const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
+            displayPagination(totalPages);
+        }
+
+        // Pagination
+        function displayPagination(totalPages) {
+            const pagination = document.getElementById('pagination');
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            if (currentPage > 1) {
+                html += `<button class="pagination-btn" onclick="goToPage(${currentPage - 1})">← Previous</button>`;
+            }
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage) {
+                    html += `<button class="pagination-btn active">${i}</button>`;
+                } else {
+                    html += `<button class="pagination-btn" onclick="goToPage(${i})">${i}</button>`;
+                }
+            }
+
+            if (currentPage < totalPages) {
+                html += `<button class="pagination-btn" onclick="goToPage(${currentPage + 1})">Next →</button>`;
+            }
+
+            pagination.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            displayPosts();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // Search blog
+        function searchBlog() {
+            const query = document.getElementById('blogSearch').value.toLowerCase();
+            if (!query) {
+                filterByCategory('all');
+                return;
+            }
+
+            currentPage = 1;
+            filteredPosts = allPosts.filter(p => 
+                p.title.toLowerCase().includes(query) ||
+                p.metaDescription.toLowerCase().includes(query)
+            );
+            displayPosts();
+        }
+
+        // Update recent posts
+        function updateRecentPosts() {
+            const recent = allPosts.slice(0, 5);
+            const html = recent.map(p => `
+                <li>
+                    <a href="blog-post.html?slug=${p.slug}">${p.title}</a>
+                    <span class="recent-post-date">${new Date(p.created).toLocaleDateString()}</span>
+                </li>
+            `).join('') || '<li><a href="#">No posts yet</a></li>';
+
+            document.getElementById('recentPosts').innerHTML = html;
+        }
+
+        // Load on page load
+        window.addEventListener('load', function() {
+            loadBlogPosts();
+            
+            // Check for category in URL
+            const params = new URLSearchParams(window.location.search);
+            const cat = params.get('cat');
+            if (cat && categories.includes(cat)) {
+                filterByCategory(cat);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse products by category.">
+    <meta name="keywords" content="products, category, shopping">
+    <title>Category - WiseChoiceMart</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .category-hero {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            color: rgb(59, 53, 53);
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .category-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .category-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .sort-select {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: rgb(109, 56, 56);
+            cursor: pointer;
+        }
+
+        .product-count {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">WiseChoiceMart</div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="blog.html">Blog</a>
+                <a href="index.html#categories">Categories</a>
+            </div>
+            <button class="hamburger" id="hamburger">☰</button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#categories">Categories</a>
+    </div>
+
+    <!-- Category Hero -->
+    <div class="category-hero">
+        <div class="container">
+            <h1 id="categoryTitle">Category</h1>
+            <p id="categoryDescription">Browse all products in this category</p>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+        <!-- Toolbar -->
+        <div class="category-toolbar">
+            <div class="product-count">
+                <span id="itemCount">0</span> products
+            </div>
+            <select class="sort-select" onchange="sortBySelection(this.value)">
+                <option value="newest">Newest</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="popular">Most Popular</option>
+                <option value="name">Name (A-Z)</option>
+            </select>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="product-grid" id="productsGrid">
+            <p style="grid-column: 1 / -1; text-align: center; color: var(--text-light);">Loading products...</p>
+        </div>
+
+        <!-- No Products -->
+        <div id="noProducts" style="display: none; text-align: center; padding: 3rem;">
+            <h3 style="color: var(--text-dark); margin-bottom: 1rem;">No products found</h3>
+            <p style="color: var(--text-light); margin-bottom: 1.5rem;">There are currently no products in this category.</p>
+            <a href="products.html" class="btn-primary">View All Products</a>
+        </div>
+
+        <!-- Related Blog Posts -->
+        <div style="margin-top: 3rem;">
+            <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">📚 Related Articles</h2>
+            <div class="blog-grid" id="relatedBlog">
+                <p style="grid-column: 1 / -1; color: var(--text-light);">No articles found for this category.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <p>Welcome to WiseChoiceMart, a premier digital marketplace designed to simplify your shopping experience. In an era of infinite choices, we serve as your curated lens, bringing together the most sought-after products in Electronics, Fashion, Beauty, and Home Essentials all in one streamlined destination.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="category.html?cat=tech">Tech</a></li>
+                        <li><a href="category.html?cat=fashion">Fashion</a></li>
+                        <li><a href="category.html?cat=home">Home</a></li>
+                        <li><a href="category.html?cat=gaming">Gaming</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WiseChoiceMart. All rights reserved. | Affiliate disclosure: We earn commissions from Amazon purchases.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        const categoryNames = {
+            'tech': 'Tech',
+            'fashion': 'Fashion',
+            'home': 'Home',
+            'gaming': 'Gaming',
+            'sports': 'Sports',
+            'beauty': 'Beauty',
+            'kitchen': 'Kitchen',
+            'office': 'Office',
+            'outdoor': 'Outdoor'
+        };
+
+        let allProducts = [];
+
+        function getCategory() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('cat') || 'tech';
+        }
+
+        function loadCategory() {
+            const category = getCategory();
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            
+            allProducts = products.filter(p => p.category === category);
+
+            const catName = categoryNames[category] || 'Products';
+            document.getElementById('categoryTitle').textContent = catName;
+            document.title = catName + ' - WiseChoiceMart';
+            document.querySelector('meta[name="description"]').setAttribute('content', `Browse all ${catName} products`);
+
+            displayProducts();
+            loadRelatedBlog(category);
+        }
+
+        function displayProducts() {
+            const grid = document.getElementById('productsGrid');
+            const count = document.getElementById('itemCount');
+
+            if (allProducts.length === 0) {
+                grid.innerHTML = '';
+                document.getElementById('noProducts').style.display = 'block';
+                count.textContent = '0';
+                return;
+            }
+
+            document.getElementById('noProducts').style.display = 'none';
+            count.textContent = allProducts.length;
+
+            grid.innerHTML = allProducts.map(p => `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${p.image}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/300x200'">
+                        <span class="category-badge">${p.category.charAt(0).toUpperCase() + p.category.slice(1)}</span>
+                    </div>
+                    <h3>${p.name}</h3>
+                    <p class="product-description">${p.description.substring(0, 100)}...</p>
+                    <p class="price">$${p.price.toFixed(2)}</p>
+                    <div class="product-actions">
+                        <a href="product.html?id=${p.id}" class="btn-small">View Details</a>
+                        <button class="btn-small btn-outline" onclick="alert('Add to compare - coming soon')">Compare</button>
+                    </div>
+                    <button class="btn-primary" onclick="trackClick(${p.id}); window.open('${p.amazonLink}', '_blank');" style="width: 100%;">Check Price</button>
+                </div>
+            `).join('');
+        }
+
+        function sortBySelection(sortType) {
+            switch(sortType) {
+                case 'price-low':
+                    allProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    allProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'popular':
+                    allProducts.sort((a, b) => (b.clicks || 0) - (a.clicks || 0));
+                    break;
+                case 'name':
+                    allProducts.sort((a, b) => a.name.localeCompare(b.name));
+                    break;
+                case 'newest':
+                default:
+                    allProducts.sort((a, b) => new Date(b.created) - new Date(a.created));
+            }
+            displayProducts();
+        }
+
+        function trackClick(productId) {
+            const analytics = JSON.parse(localStorage.getItem('analytics') || '[]');
+            analytics.push({
+                productId: productId,
+                timestamp: new Date().toISOString(),
+                type: 'click'
+            });
+            localStorage.setItem('analytics', JSON.stringify(analytics));
+
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const product = products.find(p => p.id === productId);
+            if (product) {
+                product.clicks = (product.clicks || 0) + 1;
+                localStorage.setItem('products', JSON.stringify(products));
+            }
+        }
+
+        function loadRelatedBlog(category) {
+            const posts = JSON.parse(localStorage.getItem('blogPosts') || '[]');
+            const related = posts.filter(p => p.category === category).slice(0, 3);
+
+            const container = document.getElementById('relatedBlog');
+
+            if (related.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1 / -1; color: var(--text-light);">No related articles found.</p>';
+                return;
+            }
+
+            container.innerHTML = related.map(p => `
+                <div class="blog-card">
+                    <img src="${p.featuredImage}" alt="${p.title}" onerror="this.src='https://via.placeholder.com/300x200'">
+                    <h3>${p.title}</h3>
+                    <p class="blog-meta">${new Date(p.created).toLocaleDateString()}</p>
+                    <a href="blog-post.html?slug=${p.slug}" style="display: block; padding: 1rem; color: var(--primary-color); font-weight: bold;">Read Article →</a>
+                </div>
+            `).join('');
+        }
+
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        window.addEventListener('load', loadCategory);
+    </script>
+</body>
+</html>
