@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Discover the best products across 9 categories with expert reviews, comparisons, and affiliate links.">
+    <meta name="keywords" content="product reviews, best products, shopping guide, tech, fashion, home">
+    <meta property="og:title" content="WiseChoiceMart - Best Products & Reviews">
+    <meta property="og:description" content="Find and compare the best products. Expert reviews and affiliate recommendations.">
+    <title>WiseChoiceMart - Best Product Reviews & Comparisons</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">WiseChoiceMart</div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="products.html">Products</a>
+                <a href="blog.html">Blog</a>
+                <a href="#categories">Categories</a>
+            </div>
+            <button class="hamburger" id="hamburger">☰</button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu (Hidden by default) -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a>
+        <a href="products.html">Products</a>
+        <a href="blog.html">Blog</a>
+        <a href="#categories">Categories</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Discover the Best Products</h1>
+            <p>Expert reviews, comparisons, and recommendations across 9 categories</p>
+            <div class="search-box">
+                <input type="text" id="heroSearch" placeholder="Search products & blog..." class="search-input">
+                <button class="search-btn">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="categories">
+        <div class="container">
+            <h2>Browse by Category</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="filterCategory('tech')">
+                    <h3>Tech</h3>
+                    <p>Gadgets & Electronics</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('fashion')">
+                    <h3>Fashion</h3>
+                    <p>Apparel & Accessories</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('home')">
+                    <h3>Home</h3>
+                    <p>Furniture & Decor</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('gaming')">
+                    <h3>Gaming</h3>
+                    <p>Games & Consoles</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('sports')">
+                    <h3>Sports</h3>
+                    <p>Equipment & Gear</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('beauty')">
+                    <h3>Beauty</h3>
+                    <p>Skincare & Cosmetics</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('kitchen')">
+                    <h3>Kitchen</h3>
+                    <p>Appliances & Tools</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('office')">
+                    <h3>Office</h3>
+                    <p>Furniture & Supplies</p>
+                </div>
+                <div class="category-card" onclick="filterCategory('outdoor')">
+                    <h3>Outdoor</h3>
+                    <p>Adventure & Camping</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="featured">
+        <div class="container">
+            <h2>Featured Products</h2>
+            <div class="product-grid" id="featuredProducts">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/300x200" alt="Product">
+                    <h3>Loading Products...</h3>
+                    <p class="price">$0</p>
+                    <button class="btn-primary">Check Price</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section class="blog-preview">
+        <div class="container">
+            <h2>Latest Articles</h2>
+            <div class="blog-grid" id="latestBlog">
+                <div class="blog-card">
+                    <h3>Check back soon for articles!</h3>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="blog.html" class="btn-primary">View All Articles</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>About</h4>
+                    <p>Welcome to WiseChoiceMart, a premier digital marketplace designed to simplify your shopping experience. In an era of infinite choices, we serve as your curated lens, bringing together the most sought-after products in Electronics, Fashion, Beauty, and Home Essentials all in one streamlined destination.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="category.html?cat=tech">Tech</a></li>
+                        <li><a href="category.html?cat=fashion">Fashion</a></li>
+                        <li><a href="category.html?cat=home">Home</a></li>
+                        <li><a href="category.html?cat=gaming">Gaming</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 WiseChoiceMart. All rights reserved. | Affiliate disclosure: We earn commissions from Amazon purchases.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Search functionality
+        document.querySelector('.search-btn').addEventListener('click', function() {
+            const query = document.getElementById('heroSearch').value;
+            if (query.trim()) {
+                window.location.href = 'products.html?search=' + encodeURIComponent(query);
+            }
+        });
+
+        // Enter key search
+        document.getElementById('heroSearch').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.search-btn').click();
+            }
+        });
+
+        // Load featured products (placeholder for now)
+        function loadFeaturedProducts() {
+            const featured = document.getElementById('featuredProducts');
+            featured.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px;">Add products from the admin panel to see them here.</p>';
+        }
+
+        // Filter category
+        function filterCategory(category) {
+            window.location.href = 'products.html?category=' + category;
+        }
+
+        // Load on page load
+        window.addEventListener('load', loadFeaturedProducts);
+    </script>
+</body>
+</html>
